@@ -75,8 +75,11 @@ public class ConfigManager {
 
 	private static String USEPRECONFIGOTP = "usePreConfiguredOtp";
 	private static String ESIGNET_BASE_URL = "eSignetbaseurl";
+	private static String ESIGNET_ACTUATOR_PROPERTY_SECTION = "esignetActuatorPropertySection";
+	private static String INJI_CERTIFY_BASE_URL = "injiCertifyBaseURL";
 
 	private static String ESIGNET_MOCK_BASE_URL = "esignetMockBaseURL";
+	private static String SUNBIRD_BASE_URL = "sunBirdBaseURL";
 
 	private static String PRECONFIGOTP = "preconfiguredOtp";
 	private static String DB_PORT = "db-port";
@@ -120,6 +123,7 @@ public class ConfigManager {
 	private static String MOUNT_PATH = "mountPath";
 	private static String AUTHCERTS_PATH = "authCertsPath";
 	private static String MOUNT_PATH_FOR_SCENARIO = "mountPathForScenario";
+	private static String MOCK_NOTIFICATION_CHANNEL = "mockNotificationChannel";
 	
 	private static String SERVER_ERRORS_TO_MONITOR = "serverErrorsToMonitor";
 
@@ -203,6 +207,9 @@ public class ConfigManager {
 	private static String preconfiguredOtp;
 	private static String eSignetbaseurl;
 	private static String esignetMockBaseURL;
+	private static String sunBirdBaseURL;
+	private static String esignetActuatorPropertySection;
+	private static String injiCertifyBaseURL;
 
 	private static String dbPort;
 	private static String dbDomain;
@@ -243,6 +250,7 @@ public class ConfigManager {
 
 	private static String mountPath;
 	private static String authCertsPath;
+	private static String mockNotificationChannel;
 	private static String mountPathForScenario;
 	private static String packetUtilityBaseUrl;
 	public static Properties propsKernel;
@@ -357,6 +365,11 @@ public class ConfigManager {
 		mountPath = System.getenv(MOUNT_PATH) == null ? propsKernel.getProperty(MOUNT_PATH) : System.getenv(MOUNT_PATH);
 		propsKernel.setProperty(MOUNT_PATH, mountPath);
 
+		mockNotificationChannel = System.getenv(MOCK_NOTIFICATION_CHANNEL) == null
+				? propsKernel.getProperty(MOCK_NOTIFICATION_CHANNEL)
+				: System.getenv(MOCK_NOTIFICATION_CHANNEL);
+		propsKernel.setProperty(MOCK_NOTIFICATION_CHANNEL, mockNotificationChannel);
+
 		authCertsPath = System.getenv(AUTHCERTS_PATH) == null ? propsKernel.getProperty(AUTHCERTS_PATH)
 				: System.getenv(AUTHCERTS_PATH);
 		propsKernel.setProperty(AUTHCERTS_PATH, authCertsPath);
@@ -404,18 +417,35 @@ public class ConfigManager {
 				? propsKernel.getProperty(USE_EXTERNAL_SCENARIO_SHEET)
 				: System.getenv(USE_EXTERNAL_SCENARIO_SHEET);
 		propsKernel.setProperty(USE_EXTERNAL_SCENARIO_SHEET, useExternalScenario_sheet);
+		
+		esignetActuatorPropertySection = System.getenv(ESIGNET_ACTUATOR_PROPERTY_SECTION) == null
+		? propsKernel.getProperty(ESIGNET_ACTUATOR_PROPERTY_SECTION)
+		: System.getenv(ESIGNET_ACTUATOR_PROPERTY_SECTION);
+		propsKernel.setProperty(ESIGNET_ACTUATOR_PROPERTY_SECTION, esignetActuatorPropertySection);
 
 		if (System.getenv(ESIGNET_BASE_URL) != null) {
 			eSignetbaseurl = System.getenv(ESIGNET_BASE_URL);
 		} else {
-			eSignetbaseurl = System.getProperty("env.endpoint").replace("-internal", "");
+			eSignetbaseurl = System.getProperty("env.endpoint").replace("api-internal", "esignet");
 		}
 		propsKernel.setProperty(ESIGNET_BASE_URL, eSignetbaseurl);
+		
+		if (System.getenv(INJI_CERTIFY_BASE_URL) != null) {
+			injiCertifyBaseURL = System.getenv(INJI_CERTIFY_BASE_URL);
+		} else {
+			injiCertifyBaseURL = System.getProperty("env.endpoint").replace("api-internal", "injicertify");
+		}
+		propsKernel.setProperty(INJI_CERTIFY_BASE_URL, injiCertifyBaseURL);
 
 		esignetMockBaseURL = System.getenv(ESIGNET_MOCK_BASE_URL) == null
 				? propsKernel.getProperty(ESIGNET_MOCK_BASE_URL)
 				: System.getenv(ESIGNET_MOCK_BASE_URL);
 		propsKernel.setProperty(ESIGNET_MOCK_BASE_URL, esignetMockBaseURL);
+		
+		sunBirdBaseURL = System.getenv(SUNBIRD_BASE_URL) == null
+				? propsKernel.getProperty(SUNBIRD_BASE_URL)
+				: System.getenv(SUNBIRD_BASE_URL);
+		propsKernel.setProperty(SUNBIRD_BASE_URL, sunBirdBaseURL);
 
 		serviceNotDeployedList = System.getenv(SERVICES_NOT_DEPLOYED) == null
 				? propsKernel.getProperty(SERVICES_NOT_DEPLOYED)
@@ -512,6 +542,11 @@ public class ConfigManager {
 		return false;
 	}
 	
+	public static String getEsignetActuatorPropertySection() {
+		return esignetActuatorPropertySection;
+
+	}
+	
 	public static String getComponentBaseURL(String component) {
 		return mosip_components_base_urls.get(component);
 	}
@@ -554,9 +589,19 @@ public class ConfigManager {
 		return eSignetbaseurl;
 
 	}
+	
+	public static String getInjiCertifyBaseUrl() {
+		return injiCertifyBaseURL;
+
+	}
 
 	public static String getEsignetMockBaseURL() {
 		return esignetMockBaseURL;
+
+	}
+	
+	public static String getSunBirdBaseURL() {
+		return sunBirdBaseURL;
 
 	}
 
@@ -590,6 +635,10 @@ public class ConfigManager {
 
 	public static String getpacketUtilityBaseUrl() {
 		return packetUtilityBaseUrl;
+	}
+	
+	public static String getMockNotificationChannel() {
+		return mockNotificationChannel;
 	}
 
 	public static String getauthCertsPath() {

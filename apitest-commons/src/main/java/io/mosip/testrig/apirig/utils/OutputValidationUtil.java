@@ -579,42 +579,49 @@ public class OutputValidationUtil extends AuthTestsUtil {
 		return responseHasAllowedErrorCode;
 	}
 	
-	public static void reportServerIssues(String responseString, TestCaseDTO testCaseDTO) {
-		JSONObject responseJson = new JSONObject(responseString);
+	public static void reportServerIssues(String responseString, TestCaseDTO testCaseDTO) throws AdminTestException {
+		if (responseString.startsWith("<!DOCTYPE html>") || responseString.startsWith("<html")
+				|| responseString.startsWith("no healthy upstream") || responseString == null)
+			throw new AdminTestException("Not a JSON response. Hence marking the test case as failed");
 
-		JSONArray errors = new JSONArray();
-		if (responseJson.has("errors")) {
-			errors = responseJson.optJSONArray("errors");
-		} else if (responseJson.has("error")) {
-			String error = responseJson.getString("error");
-			JSONObject tempJson = new JSONObject();
-			tempJson.put("errorCode", error);
-			tempJson.put("errorMessage", error);
-			errors.put(tempJson);
-		}
+		try {
 
-		if (errors == null ||errors.length() == 0) {
-			return;
-		}
+			JSONObject responseJson = new JSONObject(responseString);
 
-		for (int i = 0; i < errors.length(); i++) {
-			String errorMessage = "";
-
-			if (ConfigManager.getServerErrorsToMonitor().contains(errors.getJSONObject(i).getString("errorCode"))) {
-				errorMessage = errors.getJSONObject(i).has("errorMessage")
-						? errors.getJSONObject(i).getString("errorMessage")
-						: errors.getJSONObject(i).getString("message");
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append("On ").append(ConfigManager.getTargetEnvName()).append(" Encountered -- ")
-						.append(errors.getJSONObject(i).getString("errorCode")).append(" -- ")
-						.append(errorMessage).append("on this end point - ")
-						.append(testCaseDTO.getEndPoint());
-//				Report to slack. If slack integration is done
-				SlackChannelIntegration.sendMessageToSlack(stringBuilder.toString());
-
-				GlobalMethods.reportServerError(errors.getJSONObject(i).getString("errorCode"),
-						errorMessage);
+			JSONArray errors = new JSONArray();
+			if (responseJson.has("errors")) {
+				errors = responseJson.optJSONArray("errors");
+			} else if (responseJson.has("error")) {
+				String error = responseJson.getString("error");
+				JSONObject tempJson = new JSONObject();
+				tempJson.put("errorCode", error);
+				tempJson.put("errorMessage", error);
+				errors.put(tempJson);
 			}
+
+			if (errors == null || errors.length() == 0) {
+				return;
+			}
+
+			for (int i = 0; i < errors.length(); i++) {
+				String errorMessage = "";
+
+				if (ConfigManager.getServerErrorsToMonitor().contains(errors.getJSONObject(i).getString("errorCode"))) {
+					errorMessage = errors.getJSONObject(i).has("errorMessage")
+							? errors.getJSONObject(i).getString("errorMessage")
+							: errors.getJSONObject(i).getString("message");
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.append("On ").append(ConfigManager.getTargetEnvName()).append(" Encountered -- ")
+							.append(errors.getJSONObject(i).getString("errorCode")).append(" -- ").append(errorMessage)
+							.append("on this end point - ").append(testCaseDTO.getEndPoint());
+//				Report to slack. If slack integration is done
+					SlackChannelIntegration.sendMessageToSlack(stringBuilder.toString());
+
+					GlobalMethods.reportServerError(errors.getJSONObject(i).getString("errorCode"), errorMessage);
+				}
+			}
+		} catch (JSONException e) {
+			OUTPUTVALIDATION_LOGGER.error("Invalid JSON response: " + responseString);
 		}
 	}
 	
