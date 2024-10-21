@@ -51,7 +51,7 @@
 		<commons.beanutils.version>1.9.4</commons.beanutils.version>
 		<velocity.version>1.7</velocity.version>
 		<icu4j.version>63.1</icu4j.version>
-		<hadoop-client>3.4.0</hadoop-client>
+		<hadoop-client>3.4.1</hadoop-client>
 		<aws.javasdk.version>1.12.761</aws.javasdk.version>
 
 		<!-- Hibernate version -->
@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-admin-client</artifactId>
-			<version>23.0.4</version>
+			<version>25.0.4</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
 		<dependency>
