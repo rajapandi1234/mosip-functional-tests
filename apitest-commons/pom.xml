@@ -52,7 +52,7 @@
 		<velocity.version>1.7</velocity.version>
 		<icu4j.version>63.1</icu4j.version>
 		<hadoop-client>2.8.1</hadoop-client>
-		<aws.javasdk.version>1.11.368</aws.javasdk.version>
+		<aws.javasdk.version>1.12.778</aws.javasdk.version>
 
 		<!-- Hibernate version -->
 		<hibernate.version>5.2.17.Final</hibernate.version>
@@ -601,11 +601,9 @@
 							<transformers>
 								<!-- need this to merge the services files
 								properly -->
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
 								<!-- add Main-Class to manifest file -->
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>
 										io.mosip.testrig.apirig.testrunner.MosipTestRunner</mainClass>
 								</transformer>
