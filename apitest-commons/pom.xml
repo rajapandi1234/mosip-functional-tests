@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-admin-client</artifactId>
-			<version>23.0.4</version>
+			<version>26.0.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
 		<dependency>
