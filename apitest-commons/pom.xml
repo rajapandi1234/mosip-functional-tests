@@ -383,7 +383,7 @@
 		<dependency>
 			<groupId>io.mosip.mock.mds</groupId>
 			<artifactId>mock-mds</artifactId>
-			<version>1.3.0-beta.1</version>
+			<version>1.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -402,7 +402,7 @@
 		<dependency>
 			<groupId>io.mosip.authentication</groupId>
 			<artifactId>authentication-core</artifactId>
-			<version>1.2.0.1-B3</version>
+			<version>1.3.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-codec</groupId>
@@ -449,7 +449,7 @@
 		<dependency>
 			<groupId>io.mosip.kernel</groupId>
 			<artifactId>kernel-keymanager-service</artifactId>
-			<version>1.3.0-beta.1</version>
+			<version>1.3.0</version>
 			<classifier>lib</classifier>
 			<exclusions>
 				<exclusion>
@@ -613,11 +613,9 @@
 							<transformers>
 								<!-- need this to merge the services files
 								properly -->
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
 								<!-- add Main-Class to manifest file -->
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>
 										io.mosip.testrig.apirig.testrunner.MosipTestRunner</mainClass>
 								</transformer>
