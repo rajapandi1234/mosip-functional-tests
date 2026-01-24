@@ -56,7 +56,7 @@
 		<aws.javasdk.version>1.11.368</aws.javasdk.version>
 
 		<!-- Hibernate version -->
-		<hibernate.version>5.2.17.Final</hibernate.version>
+		<hibernate.version>5.3.38.Final</hibernate.version>
 
 		<!-- automationtests version -->
 		<wink-json4j-provider.version>1.1.2-incubating</wink-json4j-provider.version>
@@ -613,11 +613,9 @@
 							<transformers>
 								<!-- need this to merge the services files
 								properly -->
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
 								<!-- add Main-Class to manifest file -->
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>
 										io.mosip.testrig.apirig.testrunner.MosipTestRunner</mainClass>
 								</transformer>
